@@ -3,9 +3,11 @@ var express = require('express');
 var mongojs = require('mongojs');
 
 var PORT = process.env.PORT || 3000;
+var dbConnection = process.env.MONGO_DB || 'articles';
+
 
 var app = express();
-var db = mongojs('articles', ['articles']);
+var db = mongojs(dbConnection, ['articles']);
 
 app.use(bodyParser.json());
 
