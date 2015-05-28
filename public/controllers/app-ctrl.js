@@ -1,6 +1,6 @@
-var myApp = angular.module('myApp', []);
+var app = angular.module('myApp', []);
 
-myApp.controller('AppCtrl', ['$scope', '$http', function ($scope, $http) {
+app.controller('AppCtrl', ['$scope', '$http', function ($scope, $http) {
 
   var refresh = function () {
     $http.get('/articles').success(function (res) {
@@ -11,32 +11,43 @@ myApp.controller('AppCtrl', ['$scope', '$http', function ($scope, $http) {
 
   refresh();
 
-  $scope.addArticle = function () {
-    $http.post('/articles', $scope.article)
-      .success(function (res) {
+  $scope.toggleEdit = function (article) {
+    article.isEditing = !article.isEditing;
+  };
+
+  $scope.update = function (article) {
+
+    delete article.isEditing;
+
+    if (!article._id) {
+
+      $http.post('/articles', article)
+      .success(function () {
         refresh();
       });
-  };
 
-  $scope.removeArticle = function (id) {
-    $http.delete('/articles/' + id)
-      .success(function (res) {
-        refresh();
-      });
-  };
+    } else {
 
-  $scope.editArticle = function (id) {
-    $http.get('/articles/' + id)
-      .success(function (res) {
-        $scope.article = res;
-      });
-  };
-
-  $scope.updateArticle = function () {
-    $http.put('/articles/' + $scope.article._id, $scope.article)
-      .success(function (res) {
+      $http.put('/articles/' + article._id, article)
+      .success(function () {
         refresh();
       })
+    }
+  };
+
+  $scope.removeArticle = function (article) {
+
+    $http.delete('/articles/' + article._id)
+    .success(function () {
+      refresh();
+    });
   };
 
 }]);
+
+app.directive('joeArticle', function () {
+  return {
+    restrict: 'E',
+    templateUrl: '/views/article.html'
+  }
+});

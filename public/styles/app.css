@@ -1,0 +1,22 @@
+joe-article {
+    text-align: center;
+    padding: 10px;
+    height: 200px;
+    border: 1px solid #EEE;
+}
+
+joe-article:hover {
+    background-color: #EEE;
+}
+
+joe-article .btn-edit {
+    visibility: hidden;
+}
+
+joe-article:hover .btn-edit {
+    visibility: visible;
+}
+
+joe-article .btn-controls {
+    padding-top: 10px;
+}

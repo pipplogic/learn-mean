@@ -20,24 +20,16 @@ app.get('/articles', function (req, res) {
   });
 });
 
-app.post('/articles', function (req, res) {
-  var article = req.body;
-  delete article._id;
-  db.articles.insert(req.body, function (err, doc) {
-    res.json(doc);
-  });
-});
-
-app.delete('/articles/:id', function (req, res) {
-  var id = req.params.id;
-  db.articles.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
-    res.json(doc);
-  });
-});
-
 app.get('/articles/:id', function (req, res) {
   var id = req.params.id;
   db.articles.findOne({_id: mongojs.ObjectId(id)}, function (err, doc) {
+    res.json(doc);
+  });
+});
+
+app.post('/articles', function (req, res) {
+
+  db.articles.insert(req.body, function (err, doc) {
     res.json(doc);
   });
 });
@@ -49,12 +41,18 @@ app.put('/articles/:id', function (req, res) {
     update: {
       $set: {
         name: req.body.name,
-        link: req.body.link,
-        date: req.body.date
+        link: req.body.link
       }
     },
     new: true
   }, function (err, doc) {
+    res.json(doc);
+  });
+});
+
+app.delete('/articles/:id', function (req, res) {
+  var id = req.params.id;
+  db.articles.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
     res.json(doc);
   });
 });
