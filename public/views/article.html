@@ -1,6 +1,6 @@
 <div ng-show="!article.isEditing">
 
-    <a href="http://{{article.link}}" ng-show="article._id" >{{article.name}}</a>
+    <a href="{{article.link | externalLink}}" ng-show="article._id" >{{article.name}}</a>
     <span ng-show="!article._id">New Article</span>
     <div class="btn-controls">
         <button class="btn btn-edit"

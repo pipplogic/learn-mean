@@ -51,3 +51,11 @@ app.directive('joeArticle', function () {
     templateUrl: '/views/article.html'
   }
 });
+
+app.filter('externalLink', function () {
+  return function (input) {
+    if (input === undefined) return "javascript:void(0)";
+    if (input.indexOf('://') !== -1) return input;
+    return 'http://' + input;
+  }
+});
